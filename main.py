@@ -7,7 +7,7 @@ WIDTH = 600
 HEIGHT = 800
 
 spaceship = Actor('spaceship', (300,790))
-missles = []
+missiles = []
 meteors = []
 
 score = 0
@@ -28,10 +28,10 @@ def update():
         if keyboard.down and spaceship.bottom < HEIGHT:
             spaceship.y += 5
         
-        for missle in missles:
-            missle.y -= 10
-            if missle.top < 0:
-                missles.remove(missle)
+        for missile in missiles:
+            missile.y -= 10
+            if missile.top < 0:
+                missiles.remove(missile)
     
         for meteor in meteors:
             meteor.y += 3
@@ -53,8 +53,8 @@ def draw():
     screen.clear() 
     spaceship.draw()
 
-    for missle in missles:
-        missle.draw()
+    for missile in missiles:
+        missile.draw()
 
     for meteor in meteors:
         meteor.draw()
@@ -77,9 +77,9 @@ def check_collisions():
         if meteor.colliderect(spaceship):
             game_state = "GAME_OVER"
         
-        for missle in missles:
-            if missle.colliderect(meteor):
-                missles.remove(missle)
+        for missile in missiles:
+            if missile.colliderect(meteor):
+                missiles.remove(missile)
                 meteors.remove(meteor)
                 score += 10
 
@@ -89,8 +89,8 @@ def on_key_down(key):
     if game_state == "NEW_GAME" and key == keys.S:
         start_new_game()
     elif game_state == "PLAYING" and key == keys.SPACE:
-        missle = Actor('spacemissiles', (spaceship.x, spaceship.top))
-        missles.append(missle)
+        missile = Actor('spacemissiles', (spaceship.x, spaceship.top))
+        missiles.append(missile)
     elif game_state == "PLAYING" and key == keys.P:
         game_state = "PAUSED"
     elif game_state == "PAUSED" and key == keys.P:
@@ -101,9 +101,9 @@ def on_key_down(key):
         start_new_game()
 
 def start_new_game():
-    global game_state, score, missles, meteors
+    global game_state, score, missiles, meteors
     score = 0
-    missles = []
+    missiles = []
     meteors = []
     game_state = "PLAYING"
 
